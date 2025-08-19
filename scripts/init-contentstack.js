@@ -141,7 +141,8 @@ const contentTypes = {
       {
         display_name: "Social Links",
         uid: "social_links",
-        data_type: "json"
+        data_type: "text",
+        field_metadata: { multiline: true }
       },
       {
         display_name: "Keynote Speaker",
@@ -308,11 +309,7 @@ const sampleContent = {
       company: "NeuralVision Technologies",
       bio: "Dr. Aria Chen is a pioneer in AI-driven digital experiences with over 15 years of experience building intelligent systems. She leads the development of next-generation DXP platforms that leverage machine learning to create personalized user journeys at scale.",
       avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b332e234?w=400",
-      social_links: {
-        twitter: "@aria_chen_ai",
-        linkedin: "aria-chen-phd",
-        github: "ariachen"
-      },
+      social_links: '{"twitter": "@aria_chen_ai", "linkedin": "aria-chen-phd", "github": "ariachen"}',
       keynote_speaker: true,
       speaking_order: 1
     },
@@ -323,10 +320,7 @@ const sampleContent = {
       company: "CloudScale Dynamics",
       bio: "Marcus leads digital transformation initiatives for Fortune 500 companies, specializing in AI-powered content management and personalization engines. His work has revolutionized how enterprises deliver contextual experiences across multiple touchpoints.",
       avatar_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400",
-      social_links: {
-        twitter: "@marcus_dx",
-        linkedin: "marcus-rodriguez-digital"
-      },
+      social_links: '{"twitter": "@marcus_dx", "linkedin": "marcus-rodriguez-digital"}',
       keynote_speaker: false,
       speaking_order: 2
     },
@@ -337,11 +331,7 @@ const sampleContent = {
       company: "InfiniteLoop Labs",
       bio: "Zara is an expert in conversational AI and natural language processing for digital platforms. She has developed award-winning chatbots and voice interfaces that have transformed customer engagement for leading brands worldwide.",
       avatar_url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400",
-      social_links: {
-        twitter: "@zarakim_ai",
-        linkedin: "zara-kim-ai-strategy",
-        website: "zarakim.dev"
-      },
+      social_links: '{"twitter": "@zarakim_ai", "linkedin": "zara-kim-ai-strategy", "website": "zarakim.dev"}',
       keynote_speaker: false,
       speaking_order: 3
     },
@@ -352,10 +342,7 @@ const sampleContent = {
       company: "Quantum DX Institute",
       bio: "Dr. Thompson is at the forefront of quantum-enhanced AI for digital experiences. His research focuses on using quantum computing to solve complex personalization problems and deliver real-time, hyper-personalized content at unprecedented scale.",
       avatar_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-      social_links: {
-        linkedin: "james-thompson-quantum",
-        orcid: "0000-0000-0000-0000"
-      },
+      social_links: '{"linkedin": "james-thompson-quantum", "orcid": "0000-0000-0000-0000"}',
       keynote_speaker: true,
       speaking_order: 4
     }
