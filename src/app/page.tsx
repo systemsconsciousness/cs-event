@@ -124,7 +124,7 @@ export default function Home() {
             <button className="btn-futuristic rounded-lg px-8 py-4 text-lg">
               Register Now
             </button>
-            <button className="border border-accent text-accent hover:bg-accent hover:text-black transition-all duration-300 rounded-lg px-8 py-4 text-lg font-mono">
+            <button className="border border-secondary text-secondary hover:bg-secondary hover:text-black transition-all duration-300 rounded-lg px-8 py-4 text-lg font-mono">
               View Agenda
             </button>
           </div>
@@ -153,10 +153,11 @@ export default function Home() {
                     alt={speaker.name}
                     fill
                     className="object-cover"
+                    unoptimized
                   />
                 </div>
                 <h3 className="text-xl font-bold mb-2 text-primary">{speaker.name}</h3>
-                <p className="text-sm font-mono text-accent mb-1">{speaker.title}</p>
+                <p className="text-sm font-mono text-secondary mb-1">{speaker.title}</p>
                 <p className="text-sm text-gray-400 mb-4">{speaker.company}</p>
                 <p className="text-sm text-gray-300 leading-relaxed">{speaker.bio}</p>
                 {speaker.keynote_speaker && (
@@ -180,7 +181,7 @@ export default function Home() {
             {sessions.map((session, index) => (
               <div key={index} className="session-card rounded-xl p-6">
                 <div className="flex items-start justify-between mb-4">
-                  <span className="px-3 py-1 bg-accent/20 rounded-full text-xs font-mono text-accent border border-accent/30">
+                  <span className="px-3 py-1 bg-secondary/20 rounded-full text-xs font-mono text-secondary border border-secondary/30">
                     {session.session_type}
                   </span>
                   <span className="text-sm text-gray-400 font-mono">
@@ -217,14 +218,14 @@ export default function Home() {
                     </span>
                   )}
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-accent">{accommodation.name}</h3>
+                <h3 className="text-xl font-bold mb-3 text-primary">{accommodation.name}</h3>
                 <p className="text-gray-300 mb-4 leading-relaxed">{accommodation.description}</p>
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-2xl font-bold text-primary">${accommodation.price_per_night}</span>
                   <span className="text-sm text-gray-400">per night</span>
                 </div>
                 <p className="text-sm text-gray-400 mb-4">📍 {accommodation.distance_from_venue}</p>
-                <button className="w-full border border-accent text-accent hover:bg-accent hover:text-black transition-all duration-300 rounded-lg py-2 font-mono text-sm">
+                <button className="w-full border border-accent text-accent hover:bg-accent hover:text-white transition-all duration-300 rounded-lg py-2 font-mono text-sm">
                   Book Now
                 </button>
               </div>

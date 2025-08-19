@@ -401,6 +401,7 @@ const sampleContent = {
   
   accommodations: [
     {
+      title: "Paradise Island Resort & Conference Center",
       name: "Paradise Island Resort & Conference Center",
       slug: "paradise-island-resort",
       type: "5-Star Resort",
@@ -416,6 +417,7 @@ const sampleContent = {
       featured: true
     },
     {
+      title: "Tech Hub Suites",
       name: "Tech Hub Suites",
       slug: "tech-hub-suites",
       type: "Modern Hotel",
@@ -431,6 +433,7 @@ const sampleContent = {
       featured: true
     },
     {
+      title: "Eco Innovation Lodge",
       name: "Eco Innovation Lodge",
       slug: "eco-innovation-lodge",
       type: "Eco Resort",
@@ -466,41 +469,68 @@ async function createContentTypes() {
 async function createEntries() {
   console.log("\n📄 Creating sample content...");
   
+  const createdEntries = [];
+  
   // Create Conference Details
-  await makeRequest(
+  const conferenceEntry = await makeRequest(
     'POST',
     `${BASE_URL}/v3/content_types/conference_details/entries`,
     { entry: sampleContent.conference_details },
     `Created conference details entry`
   );
+  if (conferenceEntry) createdEntries.push({ uid: conferenceEntry.entry.uid, content_type: 'conference_details' });
   
   // Create Speakers
   for (const speaker of sampleContent.speakers) {
-    await makeRequest(
+    const speakerEntry = await makeRequest(
       'POST',
       `${BASE_URL}/v3/content_types/speaker/entries`,
       { entry: speaker },
       `Created speaker: ${speaker.name}`
     );
+    if (speakerEntry) createdEntries.push({ uid: speakerEntry.entry.uid, content_type: 'speaker' });
   }
   
   // Create Sessions
   for (const session of sampleContent.sessions) {
-    await makeRequest(
+    const sessionEntry = await makeRequest(
       'POST',
       `${BASE_URL}/v3/content_types/session/entries`,
       { entry: session },
       `Created session: ${session.title}`
     );
+    if (sessionEntry) createdEntries.push({ uid: sessionEntry.entry.uid, content_type: 'session' });
   }
   
   // Create Accommodations
   for (const accommodation of sampleContent.accommodations) {
-    await makeRequest(
+    const accommodationEntry = await makeRequest(
       'POST',
       `${BASE_URL}/v3/content_types/accommodation/entries`,
       { entry: accommodation },
-      `Created accommodation: ${accommodation.name}`
+      `Created accommodation: ${accommodation.title}`
+    );
+    if (accommodationEntry) createdEntries.push({ uid: accommodationEntry.entry.uid, content_type: 'accommodation' });
+  }
+  
+  return createdEntries;
+}
+
+// Publish Entries
+async function publishEntries(entries) {
+  console.log("\n🚀 Publishing entries...");
+  
+  for (const entry of entries) {
+    await makeRequest(
+      'POST',
+      `${BASE_URL}/v3/content_types/${entry.content_type}/entries/${entry.uid}/publish`,
+      {
+        entry: {
+          environments: [process.env.CONTENTSTACK_ENVIRONMENT || 'production'],
+          locales: ['en-us']
+        }
+      },
+      `Published entry: ${entry.uid}`
     );
   }
 }
@@ -516,20 +546,21 @@ async function run() {
     console.log("• Accommodations");
     
     await createContentTypes();
-    await createEntries();
+    const createdEntries = await createEntries();
+    await publishEntries(createdEntries);
     
     console.log("\n🎉 Setup completed successfully!");
     console.log("\n📋 Summary:");
     console.log("✅ 4 Content Types created");
-    console.log("✅ 1 Conference details page created");
-    console.log("✅ 4 Speakers created");
-    console.log("✅ 4 Sessions created");
-    console.log("✅ 3 Accommodations created");
+    console.log("✅ 1 Conference details page created and published");
+    console.log("✅ 4 Speakers created and published");
+    console.log("✅ 4 Sessions created and published");
+    console.log("✅ 3 Accommodations created and published");
     console.log("\n🏝️ Your AI DXP Island Conference site is ready!");
     console.log("💡 Next steps:");
-    console.log("1. Log into your Contentstack dashboard to review the content");
-    console.log("2. Publish the entries to make them available via the Delivery API");
-    console.log("3. The conference site will automatically display this content");
+    console.log("1. Visit your site to see the published content");
+    console.log("2. Log into your Contentstack dashboard to edit content");
+    console.log("3. All entries are published and ready for the Delivery API");
     
   } catch (error) {
     console.error("\n💥 Setup failed:", error.message);

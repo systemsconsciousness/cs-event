@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  --background: #0a0a0f;
   --foreground: #ffffff;
-  --primary: #00ff88;
-  --secondary: #ff0080;
-  --accent: #0088ff;
-  --muted: #1a1a1a;
-  --gradient-primary: linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #ff0080 100%);
-  --gradient-dark: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-  --glow-primary: 0 0 20px rgba(0, 255, 136, 0.3);
-  --glow-secondary: 0 0 20px rgba(255, 0, 128, 0.3);
-  --glow-accent: 0 0 20px rgba(0, 136, 255, 0.3);
+  --primary: #7c4dff;
+  --secondary: #ec3cdb;
+  --accent: #eb5646;
+  --muted: #1a1a2e;
+  --gradient-primary: linear-gradient(136deg, #7c4dff 1.23%, #ec3cdb 37.6%, #eb5646 75.45%);
+  --gradient-dark: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+  --glow-primary: 0 0 20px rgba(124, 77, 255, 0.4);
+  --glow-secondary: 0 0 20px rgba(236, 60, 219, 0.4);
+  --glow-accent: 0 0 20px rgba(235, 86, 70, 0.4);
 }
 
 @theme inline {
@@ -53,8 +53,8 @@ body {
 /* Tech grid background */
 .tech-grid {
   background-image: 
-    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(124, 77, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 77, 255, 0.05) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
@@ -146,8 +146,8 @@ body {
 /* Tech border effect */
 .tech-border {
   position: relative;
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(124, 77, 255, 0.3);
+  background: rgba(10, 10, 15, 0.7);
   backdrop-filter: blur(10px);
 }
 
@@ -170,7 +170,7 @@ body {
 
 /* Countdown timer styles */
 .countdown-segment {
-  background: rgba(0, 255, 136, 0.1);
+  background: rgba(124, 77, 255, 0.1);
   border: 2px solid var(--primary);
   backdrop-filter: blur(10px);
 }
@@ -195,9 +195,9 @@ body {
 /* Speaker card hover effects */
 .speaker-card {
   transition: all 0.3s ease;
-  background: rgba(26, 26, 26, 0.8);
+  background: rgba(26, 26, 46, 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(124, 77, 255, 0.2);
 }
 
 .speaker-card:hover {
@@ -208,22 +208,22 @@ body {
 
 /* Session card styles */
 .session-card {
-  background: rgba(26, 26, 26, 0.8);
+  background: rgba(26, 26, 46, 0.8);
   backdrop-filter: blur(10px);
   border-left: 4px solid var(--accent);
   transition: all 0.3s ease;
 }
 
 .session-card:hover {
-  border-left-color: var(--primary);
-  box-shadow: var(--glow-accent);
+  border-left-color: var(--secondary);
+  box-shadow: var(--glow-secondary);
 }
 
 /* Accommodation card styles */
 .accommodation-card {
-  background: rgba(26, 26, 26, 0.8);
+  background: rgba(26, 26, 46, 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 136, 255, 0.2);
+  border: 1px solid rgba(235, 86, 70, 0.2);
   transition: all 0.3s ease;
 }
 

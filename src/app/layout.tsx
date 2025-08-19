@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AI DXP Island 2028 | The Future of Digital Experience",
   description: "Join us at Paradise Island for the most innovative AI and Digital Experience Platform conference. May 15-17, 2028. Where AI meets paradise.",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
