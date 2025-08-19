@@ -1,0 +1,234 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary: #00ff88;
+  --secondary: #ff0080;
+  --accent: #0088ff;
+  --muted: #1a1a1a;
+  --gradient-primary: linear-gradient(135deg, #00ff88 0%, #0088ff 50%, #ff0080 100%);
+  --gradient-dark: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  --glow-primary: 0 0 20px rgba(0, 255, 136, 0.3);
+  --glow-secondary: 0 0 20px rgba(255, 0, 128, 0.3);
+  --glow-accent: 0 0 20px rgba(0, 136, 255, 0.3);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Futuristic scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Tech grid background */
+.tech-grid {
+  background-image: 
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Animated gradient text */
+.gradient-text {
+  background: var(--gradient-primary);
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: var(--glow-primary);
+}
+
+.glow-secondary {
+  box-shadow: var(--glow-secondary);
+}
+
+.glow-accent {
+  box-shadow: var(--glow-accent);
+}
+
+/* Futuristic button */
+.btn-futuristic {
+  position: relative;
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.btn-futuristic:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-primary);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.btn-futuristic:hover:before {
+  left: 0;
+}
+
+.btn-futuristic:hover {
+  color: var(--background);
+  box-shadow: var(--glow-primary);
+  border-color: transparent;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Tech border effect */
+.tech-border {
+  position: relative;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.tech-border:before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: var(--gradient-primary);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tech-border:hover:before {
+  opacity: 1;
+}
+
+/* Countdown timer styles */
+.countdown-segment {
+  background: rgba(0, 255, 136, 0.1);
+  border: 2px solid var(--primary);
+  backdrop-filter: blur(10px);
+}
+
+.countdown-number {
+  font-family: var(--font-mono);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-shadow: var(--glow-primary);
+}
+
+.countdown-label {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--foreground);
+  opacity: 0.8;
+}
+
+/* Speaker card hover effects */
+.speaker-card {
+  transition: all 0.3s ease;
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.speaker-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--glow-primary);
+  border-color: var(--primary);
+}
+
+/* Session card styles */
+.session-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border-left: 4px solid var(--accent);
+  transition: all 0.3s ease;
+}
+
+.session-card:hover {
+  border-left-color: var(--primary);
+  box-shadow: var(--glow-accent);
+}
+
+/* Accommodation card styles */
+.accommodation-card {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 136, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.accommodation-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--glow-accent);
+  transform: scale(1.02);
+}
