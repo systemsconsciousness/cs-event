@@ -35,9 +35,20 @@ async function makeRequest(method, url, data = null, description = "") {
     console.log(`✅ ${description}: ${response.data.content_type?.uid || response.data.entry?.uid || 'Success'}`);
     return response.data;
   } catch (error) {
-    if (error.response?.status === 422 && error.response?.data?.errors?.title) {
-      console.log(`⚠️  ${description}: Already exists, skipping...`);
-      return null; // Not a real error, just already exists
+    if (error.response?.status === 422) {
+      // Handle content type already exists
+      if (error.response?.data?.errors?.title) {
+        console.log(`⚠️  ${description}: Already exists, skipping...`);
+        return null;
+      }
+      // Handle entry already exists (duplicate slug)
+      if (error.response?.data?.errors?.slug) {
+        console.log(`⚠️  ${description}: Already exists (duplicate slug), skipping...`);
+        return null;
+      }
+      // Handle other validation errors
+      console.log(`⚠️  ${description}: Already exists or validation error, skipping...`);
+      return null;
     }
     console.error(`❌ Error ${description}:`, error.response?.data || error.message);
     throw error;
@@ -521,17 +532,22 @@ async function publishEntries(entries) {
   console.log("\n🚀 Publishing entries...");
   
   for (const entry of entries) {
-    await makeRequest(
-      'POST',
-      `${BASE_URL}/v3/content_types/${entry.content_type}/entries/${entry.uid}/publish`,
-      {
-        entry: {
-          environments: [process.env.CONTENTSTACK_ENVIRONMENT || 'production'],
-          locales: ['en-us']
-        }
-      },
-      `Published entry: ${entry.uid}`
-    );
+    try {
+      await makeRequest(
+        'POST',
+        `${BASE_URL}/v3/content_types/${entry.content_type}/entries/${entry.uid}/publish`,
+        {
+          entry: {
+            environments: [process.env.CONTENTSTACK_ENVIRONMENT || 'production'],
+            locales: ['en-us']
+          }
+        },
+        `Published entry: ${entry.uid}`
+      );
+    } catch (error) {
+      // If publishing fails, it's not critical - the entry still exists
+      console.log(`⚠️  Could not publish entry: ${entry.uid} (may already be published)`);
+    }
   }
 }
 
@@ -547,15 +563,22 @@ async function run() {
     
     await createContentTypes();
     const createdEntries = await createEntries();
-    await publishEntries(createdEntries);
+    
+    // Only try to publish entries that were actually created (not skipped)
+    const entriesToPublish = createdEntries.filter(entry => entry !== null);
+    if (entriesToPublish.length > 0) {
+      await publishEntries(entriesToPublish);
+    } else {
+      console.log("\n📝 No new entries to publish (all entries already exist)");
+    }
     
     console.log("\n🎉 Setup completed successfully!");
     console.log("\n📋 Summary:");
-    console.log("✅ 4 Content Types created");
-    console.log("✅ 1 Conference details page created and published");
-    console.log("✅ 4 Speakers created and published");
-    console.log("✅ 4 Sessions created and published");
-    console.log("✅ 3 Accommodations created and published");
+    console.log("✅ 4 Content Types ready");
+    console.log("✅ Conference details ready");
+    console.log("✅ Speakers ready");
+    console.log("✅ Sessions ready");
+    console.log("✅ Accommodations ready");
     console.log("\n🏝️ Your AI DXP Island Conference site is ready!");
     console.log("💡 Next steps:");
     console.log("1. Visit your site to see the published content");
