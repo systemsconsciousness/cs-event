@@ -214,8 +214,8 @@ const contentTypes = {
         data_type: "text"
       },
       {
-        display_name: "Tags",
-        uid: "tags",
+        display_name: "Topics",
+        uid: "topics",
         data_type: "text",
         multiple: true
       }
@@ -359,7 +359,7 @@ const sampleContent = {
       track: "Main Stage",
       session_type: "Keynote",
       room: "Paradise Amphitheater",
-      tags: ["AI", "DXP", "Future Tech", "Machine Learning"]
+      topics: ["AI", "DXP", "Future Tech", "Machine Learning"]
     },
     {
       title: "Workshop: Building Intelligent Content Personalization Engines",
@@ -371,7 +371,7 @@ const sampleContent = {
       track: "Technical Track",
       session_type: "Workshop",
       room: "Innovation Lab A",
-      tags: ["Personalization", "Hands-on", "AI Frameworks", "Workshop"]
+      topics: ["Personalization", "Hands-on", "AI Frameworks", "Workshop"]
     },
     {
       title: "Conversational AI: The Next Frontier in User Engagement",
@@ -383,7 +383,7 @@ const sampleContent = {
       track: "Experience Track",
       session_type: "Talk",
       room: "Coral Conference Hall",
-      tags: ["Conversational AI", "NLP", "User Experience", "Case Studies"]
+      topics: ["Conversational AI", "NLP", "User Experience", "Case Studies"]
     },
     {
       title: "Quantum-Enhanced AI for Real-Time Personalization",
@@ -395,7 +395,7 @@ const sampleContent = {
       track: "Research Track",
       session_type: "Keynote",
       room: "Paradise Amphitheater",
-      tags: ["Quantum Computing", "AI Research", "Performance", "Innovation"]
+      topics: ["Quantum Computing", "AI Research", "Performance", "Innovation"]
     }
   ],
   
