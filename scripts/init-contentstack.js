@@ -319,7 +319,7 @@ const sampleContent = {
       title: "Chief AI Architect",
       company: "NeuralVision Technologies",
       bio: "Dr. Aria Chen is a pioneer in AI-driven digital experiences with over 15 years of experience building intelligent systems. She leads the development of next-generation DXP platforms that leverage machine learning to create personalized user journeys at scale.",
-      avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b332e234?w=400",
+      avatar_url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
       social_links: '{"twitter": "@aria_chen_ai", "linkedin": "aria-chen-phd", "github": "ariachen"}',
       keynote_speaker: true,
       speaking_order: 1
@@ -476,52 +476,109 @@ async function createContentTypes() {
   }
 }
 
+// Check if entry exists by slug
+async function entryExists(contentType, slug) {
+  try {
+    const response = await makeRequest(
+      'GET',
+      `${BASE_URL}/v3/content_types/${contentType}/entries?query={"slug":"${slug}"}`,
+      null,
+      `Checking if entry exists: ${slug}`
+    );
+    return response.entries && response.entries.length > 0 ? response.entries[0] : null;
+  } catch (error) {
+    return null;
+  }
+}
+
 // Create Entries
 async function createEntries() {
   console.log("\n📄 Creating sample content...");
   
   const createdEntries = [];
   
-  // Create Conference Details
-  const conferenceEntry = await makeRequest(
-    'POST',
-    `${BASE_URL}/v3/content_types/conference_details/entries`,
-    { entry: sampleContent.conference_details },
-    `Created conference details entry`
-  );
-  if (conferenceEntry) createdEntries.push({ uid: conferenceEntry.entry.uid, content_type: 'conference_details' });
+  // Create Conference Details (check by title since no slug field)
+  try {
+    const conferenceCheck = await makeRequest(
+      'GET',
+      `${BASE_URL}/v3/content_types/conference_details/entries?query={"title":"AI DXP Island Conference 2028"}`,
+      null,
+      `Checking if conference details exist`
+    );
+    const existingConference = conferenceCheck.entries && conferenceCheck.entries.length > 0 ? conferenceCheck.entries[0] : null;
+    
+    if (existingConference) {
+      console.log(`⚠️  Conference details already exist, using existing entry: ${existingConference.uid}`);
+      createdEntries.push({ uid: existingConference.uid, content_type: 'conference_details', existing: true });
+    } else {
+      const conferenceEntry = await makeRequest(
+        'POST',
+        `${BASE_URL}/v3/content_types/conference_details/entries`,
+        { entry: sampleContent.conference_details },
+        `Created conference details entry`
+      );
+      if (conferenceEntry) createdEntries.push({ uid: conferenceEntry.entry.uid, content_type: 'conference_details', existing: false });
+    }
+  } catch (error) {
+    console.log(`⚠️  Could not check conference details, attempting to create...`);
+    const conferenceEntry = await makeRequest(
+      'POST',
+      `${BASE_URL}/v3/content_types/conference_details/entries`,
+      { entry: sampleContent.conference_details },
+      `Created conference details entry`
+    );
+    if (conferenceEntry) createdEntries.push({ uid: conferenceEntry.entry.uid, content_type: 'conference_details', existing: false });
+  }
   
   // Create Speakers
   for (const speaker of sampleContent.speakers) {
-    const speakerEntry = await makeRequest(
-      'POST',
-      `${BASE_URL}/v3/content_types/speaker/entries`,
-      { entry: speaker },
-      `Created speaker: ${speaker.name}`
-    );
-    if (speakerEntry) createdEntries.push({ uid: speakerEntry.entry.uid, content_type: 'speaker' });
+    const existingSpeaker = await entryExists('speaker', speaker.slug);
+    if (existingSpeaker) {
+      console.log(`⚠️  Speaker ${speaker.name} already exists, using existing entry: ${existingSpeaker.uid}`);
+      createdEntries.push({ uid: existingSpeaker.uid, content_type: 'speaker', existing: true });
+    } else {
+      const speakerEntry = await makeRequest(
+        'POST',
+        `${BASE_URL}/v3/content_types/speaker/entries`,
+        { entry: speaker },
+        `Created speaker: ${speaker.name}`
+      );
+      if (speakerEntry) createdEntries.push({ uid: speakerEntry.entry.uid, content_type: 'speaker', existing: false });
+    }
   }
   
   // Create Sessions
   for (const session of sampleContent.sessions) {
-    const sessionEntry = await makeRequest(
-      'POST',
-      `${BASE_URL}/v3/content_types/session/entries`,
-      { entry: session },
-      `Created session: ${session.title}`
-    );
-    if (sessionEntry) createdEntries.push({ uid: sessionEntry.entry.uid, content_type: 'session' });
+    const existingSession = await entryExists('session', session.slug);
+    if (existingSession) {
+      console.log(`⚠️  Session ${session.title} already exists, using existing entry: ${existingSession.uid}`);
+      createdEntries.push({ uid: existingSession.uid, content_type: 'session', existing: true });
+    } else {
+      const sessionEntry = await makeRequest(
+        'POST',
+        `${BASE_URL}/v3/content_types/session/entries`,
+        { entry: session },
+        `Created session: ${session.title}`
+      );
+      if (sessionEntry) createdEntries.push({ uid: sessionEntry.entry.uid, content_type: 'session', existing: false });
+    }
   }
   
   // Create Accommodations
   for (const accommodation of sampleContent.accommodations) {
-    const accommodationEntry = await makeRequest(
-      'POST',
-      `${BASE_URL}/v3/content_types/accommodation/entries`,
-      { entry: accommodation },
-      `Created accommodation: ${accommodation.title}`
-    );
-    if (accommodationEntry) createdEntries.push({ uid: accommodationEntry.entry.uid, content_type: 'accommodation' });
+    const existingAccommodation = await entryExists('accommodation', accommodation.slug);
+    if (existingAccommodation) {
+      console.log(`⚠️  Accommodation ${accommodation.title} already exists, using existing entry: ${existingAccommodation.uid}`);
+      createdEntries.push({ uid: existingAccommodation.uid, content_type: 'accommodation', existing: true });
+    } else {
+      const accommodationEntry = await makeRequest(
+        'POST',
+        `${BASE_URL}/v3/content_types/accommodation/entries`,
+        { entry: accommodation },
+        `Created accommodation: ${accommodation.title}`
+      );
+      if (accommodationEntry) createdEntries.push({ uid: accommodationEntry.entry.uid, content_type: 'accommodation', existing: false });
+    }
   }
   
   return createdEntries;
@@ -533,7 +590,7 @@ async function publishEntries(entries) {
   
   for (const entry of entries) {
     try {
-      await makeRequest(
+      const publishResponse = await makeRequest(
         'POST',
         `${BASE_URL}/v3/content_types/${entry.content_type}/entries/${entry.uid}/publish`,
         {
@@ -544,9 +601,28 @@ async function publishEntries(entries) {
         },
         `Published entry: ${entry.uid}`
       );
+      
+      if (publishResponse) {
+        console.log(`✅ Successfully published: ${entry.uid}`);
+      }
     } catch (error) {
-      // If publishing fails, it's not critical - the entry still exists
-      console.log(`⚠️  Could not publish entry: ${entry.uid} (may already be published)`);
+      // Try alternative publishing approach
+      try {
+        const altPublishResponse = await axios({
+          method: 'POST',
+          url: `${BASE_URL}/v3/content_types/${entry.content_type}/entries/${entry.uid}/publish`,
+          headers,
+          data: {
+            entry: {
+              environments: [process.env.CONTENTSTACK_ENVIRONMENT || 'production'],
+              locales: ['en-us']
+            }
+          }
+        });
+        console.log(`✅ Successfully published (alt method): ${entry.uid}`);
+      } catch (altError) {
+        console.log(`⚠️  Could not publish entry: ${entry.uid}. Error: ${altError.response?.data?.error_message || altError.message}`);
+      }
     }
   }
 }
@@ -564,12 +640,12 @@ async function run() {
     await createContentTypes();
     const createdEntries = await createEntries();
     
-    // Only try to publish entries that were actually created (not skipped)
+    // Publish ALL entries (both new and existing ones)
     const entriesToPublish = createdEntries.filter(entry => entry !== null);
     if (entriesToPublish.length > 0) {
       await publishEntries(entriesToPublish);
     } else {
-      console.log("\n📝 No new entries to publish (all entries already exist)");
+      console.log("\n📝 No entries found to publish");
     }
     
     console.log("\n🎉 Setup completed successfully!");

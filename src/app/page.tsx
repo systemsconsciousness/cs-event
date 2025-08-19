@@ -17,7 +17,7 @@ const speakers = [
     title: "Chief AI Architect",
     company: "NeuralVision Technologies",
     bio: "Dr. Aria Chen is a pioneer in AI-driven digital experiences with over 15 years of experience building intelligent systems.",
-    avatar_url: "https://images.unsplash.com/photo-1494790108755-2616b332e234?w=400",
+    avatar_url: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400",
     keynote_speaker: true
   },
   {
